@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Web</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background-color: #128C7E;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        #container {
+            flex: 1;
+            display: flex;
+        }
+        #sidebar {
+            width: 30%;
+            background-color: #f0f2f5;
+            border-right: 1px solid #ddd;
+            overflow-y: auto;
+        }
+        #chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        #messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: #e5ddd5;
+            background-image: url('https://web.whatsapp.com/img/bg-chat-tile-light_a4be512e7195b6b733d9110b408f075d.png');
+        }
+        #input-area {
+            padding: 10px;
+            background-color: #f0f2f5;
+            display: flex;
+            align-items: center;
+        }
+        #message-input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            outline: none;
+        }
+        #send-button {
+            margin-left: 10px;
+            padding: 10px 15px;
+            background-color: #128C7E;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        .contact {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+        }
+        .contact:hover {
+            background-color: #e9e9e9;
+        }
+        .message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 7.5px;
+            max-width: 70%;
+        }
+        .received {
+            background-color: white;
+            align-self: flex-start;
+        }
+        .sent {
+            background-color: #DCF8C6;
+            align-self: flex-end;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>WhatsApp Web</h1>
+    </header>
+    <div id="container">
+        <div id="sidebar">
+            <div class="contact">John Doe</div>
+            <div class="contact">Jane Smith</div>
+            <div class="contact">Work Group</div>
+            <div class="contact">Family Group</div>
+        </div>
+        <div id="chat-area">
+            <div id="messages">
+                <div class="message received">Hey, how are you?</div>
+                <div class="message sent">I'm good, thanks! How about you?</div>
+                <div class="message received">Doing well. Just wanted to check in.</div>
+                <div class="message sent">That's nice of you. Let's meet soon!</div>
+            </div>
+            <div id="input-area">
+                <input type="text" id="message-input" placeholder="Type a message">
+                <button id="send-button">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('send-button').addEventListener('click', sendMessage);
+        document.getElementById('message-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        function sendMessage() {
+            const input = document.getElementById('message-input');
+            const message = input.value.trim();
+            
+            if (message) {
+                const messagesDiv = document.getElementById('messages');
+                const newMessage = document.createElement('div');
+                newMessage.className = 'message sent';
+                newMessage.textContent = message;
+                messagesDiv.appendChild(newMessage);
+                input.value = '';
+                
+                // Scroll to bottom
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                
+                // Simulate reply after 1 second
+                setTimeout(() => {
+                    const replies = [
+                        "Okay",
+                        "Sounds good!",
+                        "I'll get back to you",
+                        "Thanks for letting me know",
+                        "Can we talk later?"
+                    ];
+                    const reply = replies[Math.floor(Math.random() * replies.length)];
+                    const replyMessage = document.createElement('div');
+                    replyMessage.className = 'message received';
+                    replyMessage.textContent = reply;
+                    messagesDiv.appendChild(replyMessage);
+                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                }, 1000);
+            }
+        }
+    </script>
+</body>
+</html>
